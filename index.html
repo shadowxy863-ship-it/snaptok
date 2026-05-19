@@ -1,3 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapTok Downloader</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+text-align:center;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:50px 20px;
+}
+
+h1{
+color:#22c55e;
+margin-bottom:10px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+margin-top:20px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.card{
+margin-top:20px;
+background:#111827;
+padding:20px;
+border-radius:12px;
+}
+
+a button{
+margin-top:10px;
+width:100%;
+}
+
+.notice{
+margin-top:10px;
+font-size:13px;
+color:#94a3b8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>SnapTok Downloader</h1>
+<p>Download TikTok videos easily</p>
+
+<input type="text" id="url" placeholder="Paste TikTok link">
+
+<button onclick="downloadVideo()">Download</button>
+
+<div id="result"></div>
+
+</div>
+
 <script>
 
 async function downloadVideo(){
@@ -6,73 +90,59 @@ const url = document.getElementById("url").value.trim();
 const result = document.getElementById("result");
 
 if(!url){
-result.innerHTML = "";
+result.innerHTML = "<p>Please paste link</p>";
 return;
 }
 
-result.innerHTML = "<p style='color:#cbd5e1'>Loading...</p>";
-
-let json;
+result.innerHTML = "<p>Loading...</p>";
 
 try{
 
-const res = await fetch(
-"https://tikwm.com/api/?url=" + encodeURIComponent(url)
-);
+const res = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
+const json = await res.json();
 
-json = await res.json();
-
-}catch(e){
-
-json = null;
-
-}
-
-const data = json && json.data;
-
-if(!data){
-
-// silent fallback (NO ERROR TEXT)
-result.innerHTML = `
-<div class="card">
-<p style="color:#cbd5e1">
-Video not available right now.
-</p>
-</div>
-`;
+if(!json || !json.data){
+result.innerHTML = "<p>Video not found</p>";
 return;
-
 }
 
-const video = data.play || "";
-const hd = data.hdplay || video || "";
-const music = data.music || "";
-const title = data.title || "TikTok Video";
+const d = json.data;
 
 result.innerHTML = `
+
 <div class="card">
 
-<h3>${title}</h3>
+<h3>${d.title || "TikTok Video"}</h3>
 
-<div class="downloads">
-
-<a href="${video}" target="_blank">
-<button>Download Standard</button>
+<a href="${d.play}" target="_blank">
+<button>Download Video</button>
 </a>
 
-<a href="${hd}" target="_blank">
+<a href="${d.hdplay || d.play}" target="_blank">
 <button>Download HD</button>
 </a>
 
-<a href="${music}" target="_blank">
+<a href="${d.music}" target="_blank">
 <button>Download MP3</button>
 </a>
 
+<div class="notice">
+If download not working, try another link
 </div>
 
 </div>
+
 `;
+
+}catch(e){
+
+result.innerHTML = "<p>Something went wrong, try again</p>";
+
+}
 
 }
 
 </script>
+
+</body>
+</html>

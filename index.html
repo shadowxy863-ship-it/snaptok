@@ -1,336 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SnapTok Downloader</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
-body{
-background:#0f172a;
-color:white;
-}
-
-header{
-background:#111827;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-color:#22c55e;
-}
-
-.hero{
-padding:60px 20px;
-text-align:center;
-}
-
-.hero h1{
-font-size:40px;
-margin-bottom:10px;
-}
-
-.hero p{
-color:#cbd5e1;
-margin-bottom:20px;
-}
-
-.box{
-max-width:600px;
-margin:auto;
-background:#111827;
-padding:20px;
-border-radius:12px;
-}
-
-input{
-width:100%;
-padding:14px;
-border:none;
-border-radius:8px;
-margin-bottom:10px;
-font-size:15px;
-outline:none;
-}
-
-button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-.loader{
-display:none;
-margin:15px auto;
-border:4px solid #333;
-border-top:4px solid #22c55e;
-border-radius:50%;
-width:35px;
-height:35px;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
-
-#result{
-margin-top:20px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-}
-
-.card img{
-width:100%;
-border-radius:10px;
-margin-bottom:10px;
-}
-
-.downloads{
-display:grid;
-gap:10px;
-margin-top:10px;
-}
-
-.notice{
-margin-top:15px;
-background:#0f172a;
-padding:12px;
-border-radius:10px;
-font-size:13px;
-color:#cbd5e1;
-}
-
-/* INFO SECTIONS */
-
-.section{
-padding:60px 20px;
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
-}
-
-.item{
-background:#111827;
-padding:20px;
-border-radius:10px;
-}
-
-footer{
-text-align:center;
-padding:20px;
-background:#111827;
-color:#94a3b8;
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-SnapTok Downloader
-</header>
-
-<section class="hero">
-
-<h1>Download TikTok Videos</h1>
-<p>Fast, Free & No Watermark</p>
-
-<div class="box">
-
-<input type="text" id="url" placeholder="Paste TikTok link here">
-
-<button onclick="downloadVideo()">Download</button>
-
-<div class="loader" id="loader"></div>
-
-<div id="result"></div>
-
-</div>
-
-</section>
-
-<!-- FEATURES -->
-<section class="section">
-<div class="container">
-
-<h2 style="text-align:center;margin-bottom:20px;">Features</h2>
-
-<div class="grid">
-
-<div class="item">
-<h3>Fast Download</h3>
-<p>Download videos instantly.</p>
-</div>
-
-<div class="item">
-<h3>No Watermark</h3>
-<p>Clean video without watermark.</p>
-</div>
-
-<div class="item">
-<h3>HD Support</h3>
-<p>Supports HD quality when available.</p>
-</div>
-
-</div>
-
-</div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section">
-<div class="container">
-
-<h2 style="text-align:center;margin-bottom:20px;">How It Works</h2>
-
-<div class="grid">
-
-<div class="item">
-<h3>1. Paste Link</h3>
-<p>Copy TikTok URL and paste it.</p>
-</div>
-
-<div class="item">
-<h3>2. Click Download</h3>
-<p>System fetches video info.</p>
-</div>
-
-<div class="item">
-<h3>3. Save Video</h3>
-<p>Choose quality and download.</p>
-</div>
-
-</div>
-
-</div>
-</section>
-
-<!-- FAQ -->
-<section class="section">
-<div class="container">
-
-<h2 style="text-align:center;margin-bottom:20px;">FAQ</h2>
-
-<div class="grid">
-
-<div class="item">
-<h3>Is it free?</h3>
-<p>Yes, 100% free.</p>
-</div>
-
-<div class="item">
-<h3>Mobile support?</h3>
-<p>Works on all devices.</p>
-</div>
-
-<div class="item">
-<h3>HD available?</h3>
-<p>Depends on original video.</p>
-</div>
-
-</div>
-
-</div>
-</section>
-
-<footer>
-© 2026 SnapTok Downloader
-</footer>
-
 <script>
 
 async function downloadVideo(){
 
 const url = document.getElementById("url").value.trim();
 const result = document.getElementById("result");
-const loader = document.getElementById("loader");
-
-result.innerHTML = "";
 
 if(!url){
-result.innerHTML = "<div class='notice'>Please paste a link</div>";
+result.innerHTML = "";
 return;
 }
 
-loader.style.display = "block";
+result.innerHTML = "<p style='color:#cbd5e1'>Loading...</p>";
+
+let json;
 
 try{
 
-const res = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
-const json = await res.json();
+const res = await fetch(
+"https://tikwm.com/api/?url=" + encodeURIComponent(url)
+);
 
-loader.style.display = "none";
-
-const d = json?.data;
-
-if(!d){
-result.innerHTML = "<div class='notice'>Video not found</div>";
-return;
-}
-
-result.innerHTML = `
-
-<div class="card">
-
-<img src="${d.cover || ''}">
-
-<h3>${d.title || 'TikTok Video'}</h3>
-
-<div class="downloads">
-
-<a href="${d.play}" target="_blank"><button>360P</button></a>
-<a href="${d.hdplay || d.play}" target="_blank"><button>720P HD</button></a>
-<a href="${d.hdplay || d.play}" target="_blank"><button>1080P</button></a>
-<a href="${d.music}" target="_blank"><button>MP3</button></a>
-
-</div>
-
-<div class="notice">
-Quality depends on original video source.
-</div>
-
-</div>
-
-`;
+json = await res.json();
 
 }catch(e){
 
-loader.style.display = "none";
-
-result.innerHTML = "<div class='notice'>Server busy, try again</div>";
+json = null;
 
 }
+
+const data = json && json.data;
+
+if(!data){
+
+// silent fallback (NO ERROR TEXT)
+result.innerHTML = `
+<div class="card">
+<p style="color:#cbd5e1">
+Video not available right now.
+</p>
+</div>
+`;
+return;
+
+}
+
+const video = data.play || "";
+const hd = data.hdplay || video || "";
+const music = data.music || "";
+const title = data.title || "TikTok Video";
+
+result.innerHTML = `
+<div class="card">
+
+<h3>${title}</h3>
+
+<div class="downloads">
+
+<a href="${video}" target="_blank">
+<button>Download Standard</button>
+</a>
+
+<a href="${hd}" target="_blank">
+<button>Download HD</button>
+</a>
+
+<a href="${music}" target="_blank">
+<button>Download MP3</button>
+</a>
+
+</div>
+
+</div>
+`;
 
 }
 
 </script>
-
-</body>
-</html>

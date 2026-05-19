@@ -1,3 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapTok Downloader</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.hero{
+padding:60px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#cbd5e1;
+margin-bottom:25px;
+}
+
+.box{
+max-width:600px;
+margin:auto;
+background:#111827;
+padding:25px;
+border-radius:15px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+margin-bottom:15px;
+font-size:15px;
+outline:none;
+}
+
+.main-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.main-btn:hover{
+opacity:0.9;
+}
+
+#result{
+margin-top:20px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+.downloads{
+display:grid;
+gap:10px;
+margin-top:15px;
+}
+
+.downloads a{
+text-decoration:none;
+}
+
+.downloads button{
+width:100%;
+padding:13px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:15px;
+cursor:pointer;
+}
+
+.notice{
+margin-top:20px;
+background:#0f172a;
+padding:15px;
+border-radius:10px;
+font-size:14px;
+color:#cbd5e1;
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<h1>SnapTok Downloader</h1>
+
+<p>
+Download TikTok videos instantly without watermark
+</p>
+
+<div class="box">
+
+<input
+type="text"
+id="url"
+placeholder="Paste TikTok video link here"
+>
+
+<button
+class="main-btn"
+onclick="downloadVideo()"
+>
+Download Now
+</button>
+
+<div id="result"></div>
+
+</div>
+
+</section>
+
 <script>
 
 function downloadVideo(){
@@ -10,11 +153,8 @@ document.getElementById("result");
 
 if(url === ""){
 
-result.innerHTML = `
-<p style="color:#f87171;">
-Please paste a TikTok link.
-</p>
-`;
+result.innerHTML =
+"<p style='color:#f87171;'>Please paste a TikTok link.</p>";
 
 return;
 
@@ -23,7 +163,7 @@ return;
 const encoded =
 encodeURIComponent(url);
 
-const api =
+const apiLink =
 "https://www.tikwm.com/api/?url=" + encoded;
 
 result.innerHTML = `
@@ -33,90 +173,47 @@ result.innerHTML = `
 <h3 style="
 margin-bottom:15px;
 ">
-Preparing Download...
+Download Options
 </h3>
-
-<div class="notice">
-
-Generating download options for:
-
-<br><br>
-
-${url}
-
-</div>
 
 <div class="downloads">
 
-<a
-href="${api}"
-target="_blank"
-class="download-btn"
->
-
+<a href="${apiLink}" target="_blank">
 <button>
 Download 360P
 </button>
-
 </a>
 
-<a
-href="${api}"
-target="_blank"
-class="download-btn"
->
-
+<a href="${apiLink}" target="_blank">
 <button>
 Download 480P
 </button>
-
 </a>
 
-<a
-href="${api}"
-target="_blank"
-class="download-btn"
->
-
+<a href="${apiLink}" target="_blank">
 <button>
 Download 720P HD
 </button>
-
 </a>
 
-<a
-href="${api}"
-target="_blank"
-class="download-btn"
->
-
+<a href="${apiLink}" target="_blank">
 <button>
 Download 1080P Full HD
 </button>
-
 </a>
 
-<a
-href="${api}"
-target="_blank"
-class="download-btn"
->
-
+<a href="${apiLink}" target="_blank">
 <button>
 Download 4K Ultra HD
 </button>
-
 </a>
 
 </div>
 
 <div class="notice">
 
-Higher quality depends on the original upload.
-
-<br><br>
-
-HD and Ultra HD options are automatically used when available.
+Available quality depends on the
+original TikTok upload.
 
 </div>
 
@@ -127,3 +224,6 @@ HD and Ultra HD options are automatically used when available.
 }
 
 </script>
+
+</body>
+</html>

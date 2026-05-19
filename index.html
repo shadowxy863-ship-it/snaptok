@@ -1,34 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SnapTok Tool</title>
+  <meta charset="UTF-8">
+  <title>SnapTok Downloader</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 40px;
+      background: #111;
+      color: white;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    a {
+      color: lightgreen;
+      font-size: 18px;
+    }
+  </style>
 </head>
-<body style="text-align:center;font-family:Arial;padding:40px">
+<body>
 
-<h2>TikTok Tool</h2>
+  <h2>SnapTok Downloader</h2>
 
-<input id="url" placeholder="Paste TikTok link" style="width:300px;padding:10px">
-<br><br>
+  <input type="text" id="url" placeholder="Paste TikTok video link here">
+  <br>
+  <button onclick="downloadVideo()">Download</button>
 
-<button onclick="send()">Submit</button>
+  <div id="result"></div>
 
-<p id="msg"></p>
+  <script>
+    async function downloadVideo() {
+      let url = document.getElementById("url").value;
+      let result = document.getElementById("result");
 
-<script>
-async function send() {
-  const url = document.getElementById("url").value;
-  document.getElementById("msg").innerText = "Processing...";
+      if (!url) {
+        result.innerText = "Please paste a link!";
+        return;
+      }
 
-  const res = await fetch("/api/process", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ url })
-  });
+      result.innerText = "Processing...";
 
-  const data = await res.json();
-  document.getElementById("msg").innerText = data.message;
-}
-</script>
+      try {
+        let res = await fetch("https://api.tikmate.app/api/lookup?url=" + encodeURIComponent(url));
+        let data = await res.json();
+
+        if (data && data.video && data.video.noWatermark) {
+          let link = data.video.noWatermark;
+
+          result.innerHTML = `
+            <p>Download Ready:</p>
+            <a href="${link}" target="_blank">Click here to download</a>
+          `;
+        } else {
+          result.innerText = "Video not found!";
+        }
+
+      } catch (e) {
+        result.innerText = "Error occurred. Try again.";
+      }
+    }
+  </script>
 
 </body>
 </html>

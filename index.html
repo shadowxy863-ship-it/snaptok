@@ -1,153 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SnapTok Downloader</title>
+<section class="hero">
+  <h1>Download TikTok Videos Instantly</h1>
+  <p>Fast, free and easy TikTok video downloader without watermark.</p>
+</section>
 
-<style>
-  body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f172a,#1e293b);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-  }
+<section class="features">
+  <h2>Features</h2>
 
-  .card{
-    width:90%;
-    max-width:400px;
-    background:#111827;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-    text-align:center;
-  }
+  <div class="feature-box">
+    <h3>No Watermark</h3>
+    <p>Download clean TikTok videos without watermark.</p>
+  </div>
 
-  h1{
-    margin-bottom:10px;
-    font-size:24px;
-  }
+  <div class="feature-box">
+    <h3>Fast Download</h3>
+    <p>Get your video instantly with one click.</p>
+  </div>
 
-  p{
-    font-size:13px;
-    color:#9ca3af;
-  }
+  <div class="feature-box">
+    <h3>Mobile Friendly</h3>
+    <p>Works smoothly on Android, iPhone and desktop.</p>
+  </div>
+</section>
 
-  input{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:8px;
-    outline:none;
-  }
+<section class="how">
+  <h2>How It Works</h2>
 
-  button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    background:linear-gradient(90deg,#22c55e,#16a34a);
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-  }
+  <div class="step">
+    <p>1. Copy TikTok video link</p>
+  </div>
 
-  button:hover{
-    transform:scale(1.03);
-  }
+  <div class="step">
+    <p>2. Paste the link into SnapTok</p>
+  </div>
 
-  #result{
-    margin-top:15px;
-    font-size:14px;
-  }
+  <div class="step">
+    <p>3. Click download and save your video</p>
+  </div>
+</section>
 
-  a{
-    display:inline-block;
-    margin-top:10px;
-    color:#22c55e;
-    font-weight:bold;
-    text-decoration:none;
-  }
+<section class="faq">
+  <h2>FAQ</h2>
 
-  .loader{
-    margin-top:10px;
-    border:3px solid #333;
-    border-top:3px solid #22c55e;
-    border-radius:50%;
-    width:25px;
-    height:25px;
-    animation:spin 1s linear infinite;
-    display:none;
-    margin-left:auto;
-    margin-right:auto;
-  }
+  <div class="faq-box">
+    <h3>Is SnapTok free?</h3>
+    <p>Yes, SnapTok is completely free to use.</p>
+  </div>
 
-  @keyframes spin{
-    0%{transform:rotate(0deg);}
-    100%{transform:rotate(360deg);}
-  }
-</style>
-</head>
+  <div class="faq-box">
+    <h3>Can I download videos without watermark?</h3>
+    <p>Yes, supported videos can be downloaded without watermark.</p>
+  </div>
 
-<body>
+  <div class="faq-box">
+    <h3>Does it work on mobile?</h3>
+    <p>Yes, SnapTok works on phones, tablets and desktop devices.</p>
+  </div>
+</section>
 
-<div class="card">
-  <h1>SnapTok Downloader</h1>
-  <p>Paste TikTok video link and download instantly</p>
-
-  <input type="text" id="url" placeholder="Paste TikTok link">
-
-  <button onclick="downloadVideo()">Download</button>
-
-  <div class="loader" id="loader"></div>
-
-  <div id="result"></div>
-</div>
-
-<script>
-async function downloadVideo(){
-  let url = document.getElementById("url").value;
-  let result = document.getElementById("result");
-  let loader = document.getElementById("loader");
-
-  if(!url){
-    result.innerText = "Please paste a link!";
-    return;
-  }
-
-  result.innerText = "";
-  loader.style.display = "block";
-
-  try{
-    let res = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
-    let data = await res.json();
-
-    loader.style.display = "none";
-
-    if(data && data.data && data.data.play){
-      let link = data.data.play;
-
-      result.innerHTML = `
-        <div>Download ready ✔️</div>
-        <a href="${link}" target="_blank">⬇ Click to Download</a>
-      `;
-    } else {
-      result.innerText = "Video not found!";
-    }
-
-  } catch(e){
-    loader.style.display = "none";
-    result.innerText = "Error occurred!";
-  }
-}
-</script>
-
-</body>
-</html>
+<footer>
+  <p>© 2026 SnapTok Downloader. All rights reserved.</p>
+</footer>

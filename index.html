@@ -6,62 +6,198 @@
 <title>SnapTok Downloader</title>
 
 <style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-text-align:center;
+  font-family:Arial,sans-serif;
+  background:#0f172a;
+  color:white;
+  line-height:1.6;
 }
 
 .container{
-max-width:600px;
-margin:auto;
-padding:50px 20px;
+  width:90%;
+  max-width:1100px;
+  margin:auto;
 }
 
-h1{
-color:#22c55e;
-margin-bottom:10px;
+header{
+  background:#111827;
+  padding:15px 0;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#22c55e;
+}
+
+.hero{
+  padding:80px 0;
+  text-align:center;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  color:#cbd5e1;
+  margin-bottom:25px;
+}
+
+.download-box{
+  background:#111827;
+  padding:25px;
+  border-radius:15px;
+  max-width:550px;
+  margin:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 input{
-width:100%;
-padding:14px;
-border:none;
-border-radius:8px;
-margin-top:20px;
-font-size:16px;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+  margin-bottom:12px;
+  outline:none;
+  font-size:15px;
 }
 
-button{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-size:16px;
-cursor:pointer;
+.main-btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
 }
 
-.card{
-margin-top:20px;
-background:#111827;
-padding:20px;
-border-radius:12px;
+.main-btn:hover{
+  opacity:0.9;
 }
 
-a button{
-margin-top:10px;
-width:100%;
+.loader{
+  border:3px solid #333;
+  border-top:3px solid #22c55e;
+  border-radius:50%;
+  width:30px;
+  height:30px;
+  animation:spin 1s linear infinite;
+  display:none;
+  margin:20px auto;
 }
 
-.notice{
-margin-top:10px;
-font-size:13px;
-color:#94a3b8;
+@keyframes spin{
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+#result{
+  margin-top:20px;
+}
+
+.result-card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:15px;
+}
+
+.result-card img{
+  width:100%;
+  border-radius:10px;
+  margin-bottom:15px;
+}
+
+.download-grid{
+  display:grid;
+  gap:10px;
+  margin-top:15px;
+}
+
+.download-btn{
+  display:block;
+  text-decoration:none;
+}
+
+.download-btn button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.download-btn button:hover{
+  opacity:0.9;
+}
+
+.features,
+.how,
+.faq{
+  padding:70px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.feature-grid,
+.steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.feature-card,
+.step,
+.faq-item{
+  background:#111827;
+  padding:25px;
+  border-radius:12px;
+}
+
+.faq-item{
+  margin-bottom:15px;
+}
+
+footer{
+  background:#111827;
+  text-align:center;
+  padding:25px;
+  color:#94a3b8;
+}
+
+@media(max-width:768px){
+
+  .hero h1{
+    font-size:32px;
+  }
+
 }
 
 </style>
@@ -69,76 +205,245 @@ color:#94a3b8;
 
 <body>
 
-<div class="container">
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">SnapTok</div>
+    </nav>
+  </div>
+</header>
 
-<h1>SnapTok Downloader</h1>
-<p>Download TikTok videos easily</p>
+<section class="hero">
 
-<input type="text" id="url" placeholder="Paste TikTok link">
+  <div class="container">
 
-<button onclick="downloadVideo()">Download</button>
+    <h1>Download TikTok Videos Instantly</h1>
 
-<div id="result"></div>
+    <p>
+      Download TikTok videos in HD, Full HD, 2K and 4K quality without watermark.
+    </p>
 
-</div>
+    <div class="download-box">
+
+      <input 
+        type="text" 
+        id="url" 
+        placeholder="Paste TikTok video link here"
+      >
+
+      <button class="main-btn" onclick="downloadVideo()">
+        Download Now
+      </button>
+
+      <div class="loader" id="loader"></div>
+
+      <div id="result"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="features">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Features</h2>
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <h3>Fast Download</h3>
+        <p>Download TikTok videos instantly in seconds.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>No Watermark</h3>
+        <p>Save clean videos without watermark.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>4K Quality</h3>
+        <p>Supports HD, Full HD, 2K and 4K download options.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="how">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>How It Works</h2>
+    </div>
+
+    <div class="steps">
+
+      <div class="step">
+        <h3>1. Copy TikTok Link</h3>
+        <p>Copy any TikTok video URL from the app.</p>
+      </div>
+
+      <div class="step">
+        <h3>2. Paste URL</h3>
+        <p>Paste the video link into the download box.</p>
+      </div>
+
+      <div class="step">
+        <h3>3. Download Video</h3>
+        <p>Select quality and download instantly.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="faq">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>FAQ</h2>
+    </div>
+
+    <div class="faq-item">
+      <h3>Is SnapTok free?</h3>
+      <p>Yes, SnapTok is 100% free.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I download without watermark?</h3>
+      <p>Yes, supported videos can be downloaded without watermark.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does it support HD quality?</h3>
+      <p>Yes, multiple HD quality options are available.</p>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2026 SnapTok Downloader. All rights reserved.</p>
+</footer>
 
 <script>
 
 async function downloadVideo(){
 
-const url = document.getElementById("url").value.trim();
-const result = document.getElementById("result");
+  let url=document.getElementById("url").value;
 
-if(!url){
-result.innerHTML = "<p>Please paste link</p>";
-return;
-}
+  let result=document.getElementById("result");
 
-result.innerHTML = "<p>Loading...</p>";
+  let loader=document.getElementById("loader");
 
-try{
+  if(!url){
 
-const res = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
-const json = await res.json();
+    result.innerHTML="<p>Please paste a TikTok link!</p>";
 
-if(!json || !json.data){
-result.innerHTML = "<p>Video not found</p>";
-return;
-}
+    return;
 
-const d = json.data;
+  }
 
-result.innerHTML = `
+  result.innerHTML="";
 
-<div class="card">
+  loader.style.display="block";
 
-<h3>${d.title || "TikTok Video"}</h3>
+  try{
 
-<a href="${d.play}" target="_blank">
-<button>Download Video</button>
-</a>
+    let res=await fetch(
+      "https://tikwm.com/api/?url=" + encodeURIComponent(url)
+    );
 
-<a href="${d.hdplay || d.play}" target="_blank">
-<button>Download HD</button>
-</a>
+    let data=await res.json();
 
-<a href="${d.music}" target="_blank">
-<button>Download MP3</button>
-</a>
+    loader.style.display="none";
 
-<div class="notice">
-If download not working, try another link
-</div>
+    if(data && data.data){
 
-</div>
+      let video=data.data.play;
+      let hd=data.data.hdplay || video;
+      let music=data.data.music || "";
+      let cover=data.data.cover || "";
 
-`;
+      result.innerHTML=`
 
-}catch(e){
+      <div class="result-card">
 
-result.innerHTML = "<p>Something went wrong, try again</p>";
+        <img src="${cover}">
 
-}
+        <h3>
+          Download Options
+        </h3>
+
+        <div class="download-grid">
+
+          <a class="download-btn" href="${video}" target="_blank">
+            <button>Download 360P</button>
+          </a>
+
+          <a class="download-btn" href="${video}" target="_blank">
+            <button>Download 480P</button>
+          </a>
+
+          <a class="download-btn" href="${video}" target="_blank">
+            <button>Download 720P HD</button>
+          </a>
+
+          <a class="download-btn" href="${hd}" target="_blank">
+            <button>Download 1080P Full HD</button>
+          </a>
+
+          <a class="download-btn" href="${hd}" target="_blank">
+            <button>Download 2K Ultra HD</button>
+          </a>
+
+          <a class="download-btn" href="${hd}" target="_blank">
+            <button>Download 4K Quality</button>
+          </a>
+
+          <a class="download-btn" href="${music}" target="_blank">
+            <button>Download MP3 Audio</button>
+          </a>
+
+        </div>
+
+      </div>
+
+      `;
+
+    }else{
+
+      result.innerHTML=`
+        <p>
+          Video not found or API blocked!
+        </p>
+      `;
+
+    }
+
+  }catch(e){
+
+    loader.style.display="none";
+
+    result.innerHTML=`
+      <p>
+        Error occurred! Try again later.
+      </p>
+    `;
+
+  }
 
 }
 

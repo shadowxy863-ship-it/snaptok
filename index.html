@@ -1,49 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>SnapTok Downloader</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      padding: 40px;
-      background: #111;
-      color: white;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnapTok Downloader</title>
 
-    input {
-      width: 80%;
-      padding: 12px;
-      margin-top: 20px;
-    }
+<style>
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
 
-    button {
-      padding: 10px 20px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
+  .card{
+    width:90%;
+    max-width:400px;
+    background:#111827;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    text-align:center;
+  }
 
-    #result {
-      margin-top: 20px;
-    }
+  h1{
+    margin-bottom:10px;
+    font-size:24px;
+  }
 
-    a {
-      color: lightgreen;
-    }
-  </style>
+  p{
+    font-size:13px;
+    color:#9ca3af;
+  }
+
+  input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+  }
+
+  button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(90deg,#22c55e,#16a34a);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+  }
+
+  button:hover{
+    transform:scale(1.03);
+  }
+
+  #result{
+    margin-top:15px;
+    font-size:14px;
+  }
+
+  a{
+    display:inline-block;
+    margin-top:10px;
+    color:#22c55e;
+    font-weight:bold;
+    text-decoration:none;
+  }
+
+  .loader{
+    margin-top:10px;
+    border:3px solid #333;
+    border-top:3px solid #22c55e;
+    border-radius:50%;
+    width:25px;
+    height:25px;
+    animation:spin 1s linear infinite;
+    display:none;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  @keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+  }
+</style>
 </head>
+
 <body>
 
-  <h2>SnapTok Downloader</h2>
+<div class="card">
+  <h1>SnapTok Downloader</h1>
+  <p>Paste TikTok video link and download instantly</p>
 
   <input type="text" id="url" placeholder="Paste TikTok link">
-  <br>
+
   <button onclick="downloadVideo()">Download</button>
 
-  <div id="result"></div>
+  <div class="loader" id="loader"></div>
 
-  <script src="process.js"></script>
+  <div id="result"></div>
+</div>
+
+<script>
+async function downloadVideo(){
+  let url = document.getElementById("url").value;
+  let result = document.getElementById("result");
+  let loader = document.getElementById("loader");
+
+  if(!url){
+    result.innerText = "Please paste a link!";
+    return;
+  }
+
+  result.innerText = "";
+  loader.style.display = "block";
+
+  try{
+    let res = await fetch("https://tikwm.com/api/?url=" + encodeURIComponent(url));
+    let data = await res.json();
+
+    loader.style.display = "none";
+
+    if(data && data.data && data.data.play){
+      let link = data.data.play;
+
+      result.innerHTML = `
+        <div>Download ready ✔️</div>
+        <a href="${link}" target="_blank">⬇ Click to Download</a>
+      `;
+    } else {
+      result.innerText = "Video not found!";
+    }
+
+  } catch(e){
+    loader.style.display = "none";
+    result.innerText = "Error occurred!";
+  }
+}
+</script>
 
 </body>
 </html>

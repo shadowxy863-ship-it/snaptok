@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://snaptok-586.pages.dev/sitemap.xml
